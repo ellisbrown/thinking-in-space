@@ -2,12 +2,21 @@
 
 set -e
 
+# Function to print logs with timestamp
+log() {
+    printf "\033[31m%s\033[0m %s\n" "$(date '+%Y-%m-%d %H:%M:%S')" "$1"
+}
+
+
 if [ -z "$CUDA_VISIBLE_DEVICES" ]; then
+    log "CUDA_VISIBLE_DEVICES is not set. Using all GPUs."
     gpu_count=$(nvidia-smi --query-gpu=index --format=csv,noheader | wc -l)
 else
+    log "CUDA_VISIBLE_DEVICES is set to $CUDA_VISIBLE_DEVICES."
     IFS=',' read -r -a devices <<< "$CUDA_VISIBLE_DEVICES"
     gpu_count=${#devices[@]}
 fi
+log "Number of GPUs: $gpu_count"
 
 export OPENAI_API_KEY="" # API KEY FOR OPENAI CHATGPT
 export GOOGLE_API_KEY="" # API KEY FOR GOGOLE GEMINI
@@ -43,18 +52,25 @@ while [[ $# -gt 0 ]]; do
         shift 2
         ;;
     *)
-        echo "Unknown argument: $1"
+        log "Unknown argument: $1"
         exit 1
         ;;
     esac
 done
+
+log "Benchmark: $benchmark"
+log "Output path: $output_path"
+log "Models: ${models[@]}"
+log "Limit: $limit"
+log "Number of processes: $num_processes"
+
 
 if [ "$models" = "all" ]; then
     IFS=',' read -r -a models <<<"$available_models"
 fi
 
 for model in "${models[@]}"; do
-    echo "Start evaluating $model..."
+    log "Start evaluating $model..."
 
     case "$model" in
     "gemini_1p5_flash")
@@ -132,7 +148,7 @@ for model in "${models[@]}"; do
         num_processes=1
         ;;
     *)
-        echo "Unknown model: $model"
+        log "Unknown model: $model"
         exit -1
         ;;
     esac
@@ -163,6 +179,9 @@ for model in "${models[@]}"; do
             --limit $limit \
         "
     fi
+    log "Running command:"
     echo $evaluate_script
     eval $evaluate_script
 done
+
+log "Done."
