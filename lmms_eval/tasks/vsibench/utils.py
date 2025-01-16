@@ -57,9 +57,9 @@ def vsibench_doc_to_visual(doc):
 
 def vsibench_doc_to_text(doc, lmms_eval_specific_kwargs=None):
     question = doc["question"]
-        
+
     pre_prompt = lmms_eval_specific_kwargs.get("pre_prompt", "") or "These are frames of a video."
-    
+
     if doc['question_type'] in NA_QUESTION_TYPES:
         post_prompt = lmms_eval_specific_kwargs.get("na_post_prompt", "") or "Please answer the question using a single word or phrase."
         return pre_prompt + "\n" + question + "\n" + post_prompt
@@ -105,7 +105,7 @@ def to_float(pred):
     return pred
 
 def vsibench_process_results(doc, results):
-    
+
     doc['prediction'] = results[0]
     if doc['question_type'] in MCA_QUESTION_TYPES:
         for key, value in METRICS_FOR_MCA.items():
@@ -123,12 +123,12 @@ def vsibench_process_results(doc, results):
 
 def vsibench_aggregate_results(results):
     results = pd.DataFrame(results)
-    
+
     output = {}
 
     for question_type, question_type_indexes in results.groupby('question_type').groups.items():
         per_question_type = results.iloc[question_type_indexes]
-        
+
         if question_type in MCA_QUESTION_TYPES:
             for metric in METRICS_FOR_MCA.keys():
                 output[f"{question_type}_{metric}"] = per_question_type[metric].mean()
@@ -141,13 +141,13 @@ def vsibench_aggregate_results(results):
 
         else:
             raise ValueError(f"Unknown question type: {question_type}")
-    
+
     output['object_rel_direction_accuracy'] = sum([
         output.pop('object_rel_direction_easy_accuracy'),
         output.pop('object_rel_direction_medium_accuracy'),
         output.pop('object_rel_direction_hard_accuracy'),
     ]) / 3.
-    
+
     output['overall'] = sum([_ for _ in output.values()]) / len(output)
     eval_logger.info(f"Evaluation results: {output}")
-    return output['overall'] * 100.
+    return output
