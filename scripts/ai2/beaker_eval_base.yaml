@@ -1,0 +1,44 @@
+version: v2
+budget: ai2/prior
+description: {{.Env.EXTENDED_DESCRIPTION}}
+tasks:
+- name: {{.Env.DESCRIPTION}}
+  image:
+    beaker: ai2/cuda11.8-cudnn8-dev-ubuntu20.04
+  command: ['/bin/bash', '-c']
+  arguments:
+  - >-
+    echo "Running on $(hostname)" &&
+    source $CONDA_ROOT/etc/profile.d/conda.sh &&
+    echo "CD-ing to project root: $PROJ_ROOT" &&
+    cd $PROJ_ROOT &&
+    echo "Running evaluation for {{.Env.CKPT_PATH}}" &&
+    bash scripts/ai2/eval_ov.sh "{{.Env.CKPT_PATH}}" "{{.Env.NUM_FRAMES}}"
+  datasets:
+  - mountPath: /data/weka/
+    source:
+      weka: prior-default
+  result:
+    path: ""
+  envVars:
+  - name: GITHUB_TOKEN
+    secret: GITHUB_TOKEN
+  - name: WANDB_API_KEY
+    secret: WANDB_API_KEY
+  - name: WANDB_PROJECT
+    value: video_sim2real
+  - name: OPENAI_API_KEY
+    secret: OPENAI_API_KEY
+  - name: HF_HOME
+    value: /data/weka/ellisb/hf
+  - name: PROJ_ROOT
+    value: /data/weka/ellisb/thinking-in-space
+  - name: CONDA_ROOT
+    value: /data/weka/ellisb/miniforge3
+  - name: N_GPUS
+    value: {{.Env.GPUS}}
+  resources:
+    gpuCount: {{.Env.GPUS}}
+    sharedMemory: {{.Env.SHARED_MEMORY}}
+  constraints:
+    cluster: [{{.Env.CLUSTER}}]

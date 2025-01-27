@@ -90,8 +90,7 @@ evaluate_script="$evaluate_script -m lmms_eval \
     --batch_size $BATCH_SIZE \
     --log_samples \
     --log_samples_suffix $model \
-    --output_path $output_path/$benchmark
-    "
+    --output_path $output_path/$benchmark"
 
 log "Running command:"
 echo $evaluate_script
