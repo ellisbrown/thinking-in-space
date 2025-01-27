@@ -5,6 +5,7 @@ GPUS=8
 SHARED_MEMORY="250GiB"
 CLUSTER="jupiter"
 NUM_FRAMES=32
+MODEL_FAMILY=llava_onevision
 
 log() {
     printf "\033[34m%s\033[0m %s\n" "$(date '+%Y-%m-%d %H:%M:%S')" "$1"
@@ -18,6 +19,7 @@ print_help() {
     echo "  --shared_mem <size>   Shared memory size (default: 250GiB)"
     echo "  --cluster <name>      Cluster name (default: jupiter)"
     echo "  --frames <num>        Number of frames (default: 32)"
+    echo "  --model_family <name> Model family (default: llava_onevision)"
     echo "  --help                Show help"
 }
 
@@ -34,6 +36,9 @@ while [[ $# -gt 0 ]]; do
             shift 2 ;;
         --frames)
             NUM_FRAMES="$2"
+            shift 2 ;;
+        --model_family)
+            MODEL_FAMILY="$2"
             shift 2 ;;
         --help)
             print_help
@@ -69,6 +74,7 @@ export DESCRIPTION
 export EXTENDED_DESCRIPTION=$EXTENDED_DESC
 export CKPT_PATH
 export NUM_FRAMES
+export MODEL_FAMILY
 
 # Submit job
 CMD="beaker experiment create $YAML_PATH"

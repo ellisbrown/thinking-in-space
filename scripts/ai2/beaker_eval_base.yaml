@@ -37,6 +37,8 @@ tasks:
     value: /data/weka/ellisb/miniforge3
   - name: N_GPUS
     value: {{.Env.GPUS}}
+  - name: MODEL_FAMILY
+    value: {{.Env.MODEL_FAMILY}}
   resources:
     gpuCount: {{.Env.GPUS}}
     sharedMemory: {{.Env.SHARED_MEMORY}}

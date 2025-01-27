@@ -24,9 +24,19 @@ echo "Using accelerate: $ACCELERATE"
 # Build evaluation command
 BENCHMARK=vsibench
 OUTPUT_PATH=logs/$(TZ="America/New_York" date "+%Y%m%d")
-MODEL_FAMILY=llava_onevision
-MODEL_NAME="llava_one_vision_qwen2_7b_ov_${NUM_FRAMES}f"
-MODEL_ARGS="pretrained=$CKPT_PATH,conv_template=qwen_1_5,model_name=llava_qwen,max_frames_num=$NUM_FRAMES"
+
+
+# MODEL_FAMILY=llava_onevision
+if [ "$MODEL_FAMILY" = "llava_onevision" ]; then
+    MODEL_NAME="llava_one_vision_qwen2_7b_ov_${NUM_FRAMES}f"
+    MODEL_ARGS="pretrained=$CKPT_PATH,conv_template=qwen_1_5,model_name=llava_qwen,max_frames_num=$NUM_FRAMES"
+elif [ "$MODEL_FAMILY" = "llava_vid" ]; then
+    MODEL_NAME="llava_video_7b_qwen2_${NUM_FRAMES}f"
+    MODEL_ARGS="pretrained=$CKPT_PATH,video_decode_backend=decord,conv_template=qwen_1_5,max_frames_num=$NUM_FRAMES"
+else
+    log "Invalid model family"
+    exit 1
+fi
 
 ckpt_suffix=$(basename $CKPT_PATH)
 
@@ -50,3 +60,18 @@ echo "$CMD"
 eval "$CMD"
 
 log "Evaluation completed."
+
+
+# collect results
+
+PYTHON=$ENV/bin/python
+
+CMD="$PYTHON $PROJ_ROOT/collect_vsibench.py"
+
+log "Running collect command:"
+echo "$CMD"
+eval "$CMD"
+
+log "Collection completed."
+
+log "All done."
