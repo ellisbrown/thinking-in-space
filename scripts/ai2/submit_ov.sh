@@ -5,7 +5,10 @@ log() {
     printf "\033[31m%s\033[0m %s\n" "$(date '+%Y-%m-%d %H:%M:%S')" "$1"
 }
 
-CLUSTER="jupiter"
+# CLUSTER="jupiter"
+CLUSTER="all"
+# GPUS=8
+GPUS=4
 
 # PRETRAINED="lmms-lab/llava-onevision-qwen2-7b-ov"
 # PRETRAINED="lmms-lab/LLaVA-NeXT-Video-7B-Qwen2"
@@ -48,8 +51,8 @@ CLUSTER="jupiter"
 
 # 2025_01_29
 PRETRAINED_LIST=(
-    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_50k_100mc_50oe_lr1e-8"
-    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_50k_100mc_50oe_lr5e-9"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_50k_100mc_50oe_lr1e-8"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_50k_100mc_50oe_lr5e-9"
     "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_ov20_100mc_50oe_lr1e-7"
     "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_ov20_100mc_50oe"
     "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_26__spoc_ov_v4"
@@ -60,7 +63,7 @@ for PRETRAINED in "${PRETRAINED_LIST[@]}"; do
     log "Pretrained model: $PRETRAINED"
     echo ""
 
-    bash scripts/ai2/launch_eval.sh $PRETRAINED --clusters $CLUSTER
+    bash scripts/ai2/launch_eval.sh $PRETRAINED --clusters $CLUSTER --gpus $GPUS
 
     log "Job submitted."
 done
