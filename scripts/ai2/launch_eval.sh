@@ -17,7 +17,7 @@ print_help() {
     echo "Options:"
     echo "  --gpus <number>       Number of GPUs (default: 8)"
     echo "  --shared_mem <size>   Shared memory size (default: 250GiB)"
-    echo "  --clusters <name>      Cluster name or combination (default: jupiter)"
+    echo "  --clusters <name>     Cluster name or combination (default: all)"
     echo "                        Examples:"
     echo "                          jupiter"
     echo "                          jupiter+saturn"
@@ -82,10 +82,15 @@ parse_clusters() {
 
     if [[ "$input" == "all" ]]; then
         # Add all known clusters. Adjust as needed.
-        cluster_array+=("ai2/jupiter-cirrascale-2")
-        cluster_array+=("ai2/saturn-cirrascale")
-        cluster_array+=("ai2/ceres-cirrascale")
-        cluster_array+=("ai2/neptune-cirrascale")
+        cluster_array+=($(get_cluster_fullname "jupiter"))
+        cluster_array+=($(get_cluster_fullname "ceres"))
+        cluster_array+=($(get_cluster_fullname "saturn"))
+        cluster_array+=($(get_cluster_fullname "neptune"))
+    elif [[ "$input" == "80GB" ]]; then
+        # Add all 80GB clusters (A100 + H100)
+        cluster_array+=($(get_cluster_fullname "jupiter"))
+        cluster_array+=($(get_cluster_fullname "ceres"))
+        cluster_array+=($(get_cluster_fullname "saturn"))
     else
         # Split on "+" sign for multiple clusters
         IFS='+' read -ra splitted <<< "$input"
@@ -106,11 +111,16 @@ parse_clusters() {
 # ------------------------------------------------------------------------------
 # Parse the user-provided cluster(s) into an array
 # ------------------------------------------------------------------------------
-READ_CLUSTERS=($(parse_clusters "$CLUSTERS"))
-[[ ${#READ_CLUSTERS[@]} -eq 0 ]] && {
+read_clusters=($(parse_clusters "$CLUSTERS"))
+[[ ${#read_clusters[@]} -eq 0 ]] && {
     log "No valid cluster(s) specified."
     exit 1
 }
+
+clusters_yaml=""
+for c in "${read_clusters[@]}"; do
+    clusters_yaml+="'${c}',"
+done
 
 CLUSTERS_YAML=""
 for c in "${READ_CLUSTERS[@]}"; do
@@ -126,7 +136,7 @@ EXTENDED_DESC="${CLUSTERS}_1x${GPUS}_${DESCRIPTION}"
 # Export environment variables
 export GPUS
 export SHARED_MEMORY
-export CLUSTERS=$CLUSTERS_YAML
+export CLUSTERS=$clusters_yaml
 export DESCRIPTION
 export EXTENDED_DESCRIPTION=$EXTENDED_DESC
 export CKPT_PATH
