@@ -3,7 +3,7 @@
 # Default values
 GPUS=8
 SHARED_MEMORY="250GiB"
-CLUSTER="jupiter"
+CLUSTERS="all"
 NUM_FRAMES=32
 MODEL_FAMILY=llava_onevision
 
@@ -17,7 +17,11 @@ print_help() {
     echo "Options:"
     echo "  --gpus <number>       Number of GPUs (default: 8)"
     echo "  --shared_mem <size>   Shared memory size (default: 250GiB)"
-    echo "  --cluster <name>      Cluster name (default: jupiter)"
+    echo "  --clusters <name>      Cluster name or combination (default: jupiter)"
+    echo "                        Examples:"
+    echo "                          jupiter"
+    echo "                          jupiter+saturn"
+    echo "                          all"
     echo "  --frames <num>        Number of frames (default: 32)"
     echo "  --model_family <name> Model family (default: llava_onevision)"
     echo "  --help                Show help"
@@ -31,8 +35,8 @@ while [[ $# -gt 0 ]]; do
         --shared_mem)
             SHARED_MEMORY="$2"
             shift 2 ;;
-        --cluster)
-            CLUSTER="$2"
+        --clusters)
+            CLUSTERS="$2"
             shift 2 ;;
         --frames)
             NUM_FRAMES="$2"
@@ -51,25 +55,78 @@ done
 
 [ -z "$CKPT_PATH" ] && { log "Error: Checkpoint path required"; print_help; exit 1; }
 
-# Cluster mapping
-case $CLUSTER in
-    saturn) cluster_fullname="ai2/saturn-cirrascale" ;;
-    jupiter) cluster_fullname="ai2/jupiter-cirrascale-2" ;;
-    ceres) cluster_fullname="ai2/ceres-cirrascale" ;;
-    neptune) cluster_fullname="ai2/neptune-cirrascale" ;;
-    *) log "Invalid cluster"; exit 1 ;;
-esac
+# ------------------------------------------------------------------------------
+# A simple function that maps a short cluster name to its full name.
+# Returns an empty string if the short name is unknown.
+# ------------------------------------------------------------------------------
+get_cluster_fullname() {
+    case "$1" in
+        saturn)   echo "ai2/saturn-cirrascale" ;;
+        jupiter)  echo "ai2/jupiter-cirrascale-2" ;;
+        ceres)    echo "ai2/ceres-cirrascale" ;;
+        neptune)  echo "ai2/neptune-cirrascale" ;;
+        *)        echo "" ;;
+    esac
+}
+
+# ------------------------------------------------------------------------------
+# parse_clusters():
+# Accepts a single cluster name, plus-separated cluster names (e.g. "jupiter+saturn"),
+# or the special keyword "all" to get *all* known clusters.
+# Returns an array of cluster_fullnames via stdout.
+# ------------------------------------------------------------------------------
+parse_clusters() {
+    local input="$1"
+    local cluster_fullname
+    local cluster_array=()
+
+    if [[ "$input" == "all" ]]; then
+        # Add all known clusters. Adjust as needed.
+        cluster_array+=("ai2/jupiter-cirrascale-2")
+        cluster_array+=("ai2/saturn-cirrascale")
+        cluster_array+=("ai2/ceres-cirrascale")
+        cluster_array+=("ai2/neptune-cirrascale")
+    else
+        # Split on "+" sign for multiple clusters
+        IFS='+' read -ra splitted <<< "$input"
+        for c in "${splitted[@]}"; do
+            cluster_fullname="$(get_cluster_fullname "$c")"
+            if [[ -z "$cluster_fullname" ]]; then
+                log "Invalid cluster: $c"
+                exit 1
+            fi
+            cluster_array+=("$cluster_fullname")
+        done
+    fi
+
+    # Echo them space-separated so we can capture in an array later
+    echo "${cluster_array[@]}"
+}
+
+# ------------------------------------------------------------------------------
+# Parse the user-provided cluster(s) into an array
+# ------------------------------------------------------------------------------
+READ_CLUSTERS=($(parse_clusters "$CLUSTERS"))
+[[ ${#READ_CLUSTERS[@]} -eq 0 ]] && {
+    log "No valid cluster(s) specified."
+    exit 1
+}
+
+CLUSTERS_YAML=""
+for c in "${READ_CLUSTERS[@]}"; do
+    CLUSTERS_YAML+="'${c}',"
+done
 
 # Build description
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 YAML_PATH="$DIR/beaker_eval_base.yaml"
 DESCRIPTION="eval_$(basename $CKPT_PATH | tr '/' '_')"
-EXTENDED_DESC="${CLUSTER}_1x${GPUS}_${DESCRIPTION}"
+EXTENDED_DESC="${CLUSTERS}_1x${GPUS}_${DESCRIPTION}"
 
 # Export environment variables
 export GPUS
 export SHARED_MEMORY
-export CLUSTER=$cluster_fullname
+export CLUSTERS=$CLUSTERS_YAML
 export DESCRIPTION
 export EXTENDED_DESCRIPTION=$EXTENDED_DESC
 export CKPT_PATH
@@ -80,5 +137,5 @@ export MODEL_FAMILY
 CMD="beaker experiment create $YAML_PATH"
 log "Submitting evaluation job:"
 echo "Checkpoint: $CKPT_PATH"
-echo "GPUs: $GPUS | Cluster: $CLUSTER | Frames: $NUM_FRAMES"
+echo "GPUs: $GPUS | Clusters: $CLUSTERS | Frames: $NUM_FRAMES"
 eval "$CMD"

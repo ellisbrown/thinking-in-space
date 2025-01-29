@@ -43,4 +43,4 @@ tasks:
     gpuCount: {{.Env.GPUS}}
     sharedMemory: {{.Env.SHARED_MEMORY}}
   constraints:
-    cluster: [{{.Env.CLUSTER}}]
+    cluster: [{{.Env.CLUSTERS}}]

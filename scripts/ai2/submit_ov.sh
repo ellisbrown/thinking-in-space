@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 log() {
     printf "\033[31m%s\033[0m %s\n" "$(date '+%Y-%m-%d %H:%M:%S')" "$1"
@@ -32,7 +33,7 @@ CLUSTER="jupiter"
 # PRETRAINED="/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_21__sweep_lr1e-6_vlr1e-6"
 
 
-PRETRAINED_LIST=(
+# PRETRAINED_LIST=(
     # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_26__spoc_50k_mc"
     # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_26__spoc_50k_mc_lr1e-7"
     # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_26__spoc_50k_100mc_20oe"
@@ -41,8 +42,17 @@ PRETRAINED_LIST=(
     # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_50k_100mc_50oe_lr5e-8"
     # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_50k_100mc_80oe"
     # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_50k_100mc_80oe_lr1e-7"
-    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_50k_100mc_100oe"
-    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_50k_100mc_100oe_lr1e-7"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_50k_100mc_100oe"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_50k_100mc_100oe_lr1e-7"
+# )
+
+# 2025_01_29
+PRETRAINED_LIST=(
+    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_50k_100mc_50oe_lr1e-8"
+    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_50k_100mc_50oe_lr5e-9"
+    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_ov20_100mc_50oe_lr1e-7"
+    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_ov20_100mc_50oe"
+    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_26__spoc_ov_v4"
 )
 
 for PRETRAINED in "${PRETRAINED_LIST[@]}"; do
@@ -50,7 +60,7 @@ for PRETRAINED in "${PRETRAINED_LIST[@]}"; do
     log "Pretrained model: $PRETRAINED"
     echo ""
 
-    bash scripts/ai2/launch_eval.sh $PRETRAINED --cluster $CLUSTER
+    bash scripts/ai2/launch_eval.sh $PRETRAINED --clusters $CLUSTER
 
     log "Job submitted."
 done
