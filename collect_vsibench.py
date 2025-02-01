@@ -6,6 +6,7 @@ import json
 import math
 import csv
 import argparse
+import datetime
 
 
 def safe_mean(values):
@@ -46,6 +47,7 @@ def main(glob_pattern, output_csv):
 
     # Prepare CSV header
     header = [
+        "timestamp",
         "datestr",
         "model",
         "ckpt",
@@ -72,7 +74,7 @@ def main(glob_pattern, output_csv):
         all_results = glob.glob(glob_pattern)
 
         # sort by date
-        all_results.sort()
+        all_results.sort(key=lambda x: os.path.getmtime(x))  # sorts using the last modified timestamp
 
         for result_file in all_results:
             # Example path: logs/20250106/vsibench/0107_0118_internvl2_8b_8f_internvl2_model_args_746c50/results.json
@@ -81,6 +83,9 @@ def main(glob_pattern, output_csv):
             if len(path_parts) < 2:
                 # In case the path doesn't match the expected structure
                 continue
+
+             # Get the full timestamp (last modified time) in human-readable ISO format.
+            file_timestamp = datetime.datetime.fromtimestamp(os.path.getmtime(result_file)).isoformat()
 
             datestr = path_parts[1]
 
@@ -145,6 +150,7 @@ def main(glob_pattern, output_csv):
                 return float('nan') if x is None else x
 
             row = [
+                file_timestamp,
                 datestr,
                 model,
                 ckpt,
