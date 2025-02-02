@@ -7,8 +7,8 @@ log() {
 
 # CLUSTER="jupiter"
 CLUSTER="all"
-# GPUS=8
-GPUS=4
+GPUS=8
+# GPUS=4
 
 # PRETRAINED="lmms-lab/llava-onevision-qwen2-7b-ov"
 # PRETRAINED="lmms-lab/LLaVA-NeXT-Video-7B-Qwen2"
@@ -50,12 +50,43 @@ GPUS=4
 # )
 
 # 2025_01_29
-PRETRAINED_LIST=(
+# PRETRAINED_LIST=(
     # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_50k_100mc_50oe_lr1e-8"
     # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_50k_100mc_50oe_lr5e-9"
-    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_ov20_100mc_50oe_lr1e-7"
-    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_ov20_100mc_50oe"
-    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_26__spoc_ov_v4"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_ov20_100mc_50oe_lr1e-7"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_27__spoc_ov20_100mc_50oe"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_26__spoc_ov_v4"
+
+    # 2025_01_31
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_30__mt5_mixed"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_30__mt3_grouped"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_30__mt3_mixed"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_30__mt5_grouped"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_30__mt1_grouped"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_30__mt1_mixed"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_29__spoc_ov20_100mc_50oe_lr1e-5"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_29__spoc8k_ov30_100mc_80oe"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_29__spoc8k_ov20_100mc_80oe"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_29__spoc_ov20_100mc_50oe_lr1e-6"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_29__spoc_ov20_100mc_50oe_lr5e-7"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_29__spoc8k_ov40_100mc_80oe"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_01_29__spoc8k_ov10_100mc_80oe"
+# )
+
+
+# 2025_02_01
+PRETRAINED_LIST=(
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_ct"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_rel_dist"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_rel_dir"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_temp"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_desc"
+
+    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_ct_oe"
+    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_rel_dist_oe"
+    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_rel_dir_oe"
+    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_temp_oe"
+    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_desc_oe"
 )
 
 for PRETRAINED in "${PRETRAINED_LIST[@]}"; do
