@@ -7,6 +7,7 @@ import math
 import csv
 import argparse
 import datetime
+from zoneinfo import ZoneInfo
 
 
 def safe_mean(values):
@@ -74,7 +75,7 @@ def main(glob_pattern, output_csv):
         all_results = glob.glob(glob_pattern)
 
         # sort by date
-        all_results.sort(key=lambda x: os.path.getmtime(x))  # sorts using the last modified timestamp
+        all_results.sort(key=lambda x: os.path.getctime(x)) # sorts using the creation timestamp
 
         for result_file in all_results:
             # Example path: logs/20250106/vsibench/0107_0118_internvl2_8b_8f_internvl2_model_args_746c50/results.json
@@ -84,8 +85,9 @@ def main(glob_pattern, output_csv):
                 # In case the path doesn't match the expected structure
                 continue
 
-             # Get the full timestamp (last modified time) in human-readable ISO format.
-            file_timestamp = datetime.datetime.fromtimestamp(os.path.getmtime(result_file)).isoformat()
+             # Get the full timestamp (created time) in human-readable ISO format.
+            nyc_tz = ZoneInfo("America/New_York")
+            file_timestamp = datetime.datetime.fromtimestamp(os.path.getctime(result_file), nyc_tz).isoformat()
 
             datestr = path_parts[1]
 
