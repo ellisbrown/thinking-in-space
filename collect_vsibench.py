@@ -55,7 +55,7 @@ def main(glob_pattern, output_csv):
         "max_frames",
         "git_hash",
         "Overall",
-        "Appearance Order",
+        "Num Avg",
         "Measurement Avg",
         "Abs Dist",
         "Obj Size",
@@ -64,7 +64,9 @@ def main(glob_pattern, output_csv):
         "Obj Count",
         "Rel Dist",
         "Rel Dir",
-        "Route Plan"
+        "Route Plan",
+        "Appearance Order",
+        "MC Avg",
     ]
 
     with open(output_csv, "w", newline="") as f:
@@ -147,6 +149,9 @@ def main(glob_pattern, output_csv):
             # Layout Avg = average(Obj Count, Rel Dist, Rel Dir, Route Plan)
             layout_avg = safe_mean([obj_count, rel_dist, rel_dir, route_plan])
 
+            num_avg = safe_mean([abs_dist, obj_size, room_size, obj_count])
+            mc_avg = safe_mean([rel_dist, rel_dir, route_plan, appearance_order])
+
             # Convert Nones to nan for CSV
             def none_to_nan(x):
                 return float('nan') if x is None else x
@@ -159,7 +164,7 @@ def main(glob_pattern, output_csv):
                 max_frames,
                 git_hash,
                 none_to_nan(overall),
-                none_to_nan(appearance_order),
+                none_to_nan(num_avg),
                 none_to_nan(measurement_avg),
                 none_to_nan(abs_dist),
                 none_to_nan(obj_size),
@@ -169,6 +174,8 @@ def main(glob_pattern, output_csv):
                 none_to_nan(rel_dist),
                 none_to_nan(rel_dir),
                 none_to_nan(route_plan),
+                none_to_nan(appearance_order),
+                none_to_nan(mc_avg)
             ]
 
             writer.writerow(row)
