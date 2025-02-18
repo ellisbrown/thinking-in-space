@@ -8,12 +8,13 @@ tasks:
   command: ['/bin/bash', '-c']
   arguments:
   - >-
+    set -euxo pipefail &&
     echo "Running on $(hostname)" &&
     source $CONDA_ROOT/etc/profile.d/conda.sh &&
     echo "CD-ing to project root: $PROJ_ROOT" &&
     cd $PROJ_ROOT &&
     echo "Running evaluation for {{.Env.CKPT_PATH}}" &&
-    bash scripts/ai2/eval_ov.sh "{{.Env.CKPT_PATH}}" "{{.Env.NUM_FRAMES}}"
+    bash -euxo pipefail scripts/ai2/eval_ov.sh "{{.Env.CKPT_PATH}}" "{{.Env.NUM_FRAMES}}"
   datasets:
   - mountPath: /data/weka/
     source:
@@ -42,5 +43,9 @@ tasks:
   resources:
     gpuCount: {{.Env.GPUS}}
     sharedMemory: {{.Env.SHARED_MEMORY}}
+  context:
+    # priority: low
+    priority: normal
+    preemptible: true
   constraints:
     cluster: [{{.Env.CLUSTERS}}]
