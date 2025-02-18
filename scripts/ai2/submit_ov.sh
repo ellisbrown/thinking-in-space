@@ -7,8 +7,8 @@ log() {
 
 # CLUSTER="jupiter"
 CLUSTER="all"
-GPUS=8
-# GPUS=4
+# GPUS=8
+GPUS=4
 
 # PRETRAINED="lmms-lab/llava-onevision-qwen2-7b-ov"
 # PRETRAINED="lmms-lab/LLaVA-NeXT-Video-7B-Qwen2"
@@ -74,27 +74,74 @@ GPUS=8
 # )
 
 
-# 2025_02_01
-PRETRAINED_LIST=(
-    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_ct"
-    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_rel_dist"
-    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_rel_dir"
-    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_temp"
-    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_desc"
+# # 2025_02_01
+# PRETRAINED_LIST=(
+#     # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_ct"
+#     # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_rel_dist"
+#     # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_rel_dir"
+#     # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_temp"
+#     # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_desc"
 
-    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_ct_oe"
-    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_rel_dist_oe"
-    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_rel_dir_oe"
-    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_temp_oe"
-    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_desc_oe"
+#     "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_ct_oe"
+#     "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_rel_dist_oe"
+#     "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_rel_dir_oe"
+#     "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_temp_oe"
+#     "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_01__mt1_desc_oe"
+# )
+
+# 2025_02_09
+PRETRAINED_LIST=(
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_09__ov_1k_mt5_mixed"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_09__ov_1k_mt5_grouped"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_09__ov_1k_mt3_mixed"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_09__ov_1k_mt3_grouped"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_09__ov_1k_mt1_mixed"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_09__ov_1k_mt1_grouped"
+
+    # 2025_02_10
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_10__ov_mt1_abs_dist_oe"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_10__ov_mt1_abs_dist_mc"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_10__ov_mt1_long_size_est_oe"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_10__ov_mt1_long_size_est_mc"
+    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_10__ov_mt1_long_size_est_v2_oe"
+    "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_10__ov_mt1_long_size_est_v2_mc"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_10__ov_mt1_short_size_est_mc"
+    # "/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision/ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_10__ov_mt1_short_size_est_oe"
 )
 
-for PRETRAINED in "${PRETRAINED_LIST[@]}"; do
-    log "Submitting job to cluster $CLUSTER"
-    log "Pretrained model: $PRETRAINED"
-    echo ""
+# for PRETRAINED in "${PRETRAINED_LIST[@]}"; do
+#     log "Submitting job to cluster $CLUSTER"
+#     log "Pretrained model: $PRETRAINED"
+#     echo ""
 
-    bash scripts/ai2/launch_eval.sh $PRETRAINED --clusters $CLUSTER --gpus $GPUS
+#     bash scripts/ai2/launch_eval.sh $PRETRAINED --clusters $CLUSTER --gpus $GPUS
 
-    log "Job submitted."
+#     log "Job submitted."
+# done
+
+# TASKS=("house_size_est" "n_rooms" "temporal_order_2" "temporal_order_3" "temporal_order_4" "temporal_order_5")
+
+CHECKPOINT_DIR="/data/weka/ellisb/LLaVA-NeXT/checkpoints/onevision"
+CHECKPOINTS=(
+    # ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_11__ov_ai2_SAT_10k
+    # ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_11__ov_ai2_SAT_50k
+    ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_11__ov_mt1_house_size_est_mc
+    ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_11__ov_mt1_house_size_est_oe
+    ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_11__ov_mt1_n_rooms_mc
+    ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_11__ov_mt1_n_rooms_oe
+    # ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_11__ov_mt1_temporal_order_2_mc
+    ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_11__ov_mt1_temporal_order_2_oe
+    ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_11__ov_mt1_temporal_order_3_mc
+    # ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_11__ov_mt1_temporal_order_3_oe
+    # ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_11__ov_mt1_temporal_order_4_mc
+    ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_11__ov_mt1_temporal_order_4_oe
+    # ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_11__ov_mt1_temporal_order_5_mc
+    ft-llava-ov-google_siglip-so400m-patch14-384-Qwen_Qwen2-7B-Instruct-32F_vidS2R_2025_02_11__ov_mt1_temporal_order_5_oe
+)
+
+log "Submitting jobs to cluster $CLUSTER"
+for CHECKPOINT in "${CHECKPOINTS[@]}"; do
+    PRETRAINED="$CHECKPOINT_DIR/$CHECKPOINT"
+    echo "Pretrained: $PRETRAINED"
+    bash scripts/ai2/launch_eval.sh $PRETRAINED --clusters $CLUSTER --gpus $GPUS &
 done
